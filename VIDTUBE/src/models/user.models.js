@@ -1,4 +1,4 @@
-import mongoose, { Schema, schema, SchemaType } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -52,7 +52,7 @@ const userSchema = new Schema(
 );
 //encrypting the password
 userSchema.pre("save", async function (next) {
-  if (!this.modified("password")) return next(); //you're saying this because the first time you save the password, you're not modifying it
+  if (!this.isModified("password")) return next(); //you're saying this because the first time you save the password, you're not modifying it
   this.password = bcrypt.hash(this.password, 10); //need to mention which you're hashing
   next();
 });
